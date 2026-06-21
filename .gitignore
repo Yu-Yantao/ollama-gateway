@@ -1,0 +1,28 @@
+# IDE / local agent state
+.idea/
+.vscode/
+.claude/
+
+# OS files
+.DS_Store
+
+# Go build and test artifacts
+/bin/
+*.test
+*.out
+coverage.out
+
+# Avoid committing GOPATH module cache if the project is opened with a bad GOPATH.
+/pkg/mod/
+/pkg/sumdb/
+
+# Python helper script cache
+__pycache__/
+*.py[cod]
+
+# Local config variants
+*.bak
+config.local.yaml
+
+# Test file
+ollama-scheduler-test

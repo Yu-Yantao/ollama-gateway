@@ -1,0 +1,44 @@
+server:
+  port: ":1103"
+  mode: "affinity" # 调度模式: global（全局贪心）或 affinity（亲和性窃取）
+  mock: true # 开启mock模式用于本地测试
+  mock_task_duration: 30 # Mock模式下任务执行时间（秒）
+  request_timeout: 30 # Ollama HTTP请求超时时间（秒）
+  max_request_body_mb: 10 # 最大请求体大小（MB）
+  task_result_ttl: 3600 # 任务结果保留时间（秒），1小时
+  task_clean_interval: 600 # 任务清理间隔（秒），10分钟
+  max_queue_size: 100 # 最大队列长度（防止无限堆积）
+
+workers:
+  # ========== 14B (1卡) ==========
+  - id: "qwen3:14b"
+    url: "http://127.0.0.1:21434"
+    owner: "shared"
+    models: [ "qwen3:14b" ]
+
+  # ========== 30B-Instruct (2个Worker) ==========
+  - id: "Qwen3:30b-a3b-instruct-2507-q4_K_M-01"
+    url: "http://127.0.0.1:11411"
+    owner: "shared"
+    models: [ "Qwen3:30b-a3b-instruct-2507-q4_K_M" ]
+
+  - id: "Qwen3:30b-a3b-instruct-2507-q4_K_M-02"
+    url: "http://127.0.0.1:11412"
+    owner: "shared"
+    models: [ "Qwen3:30b-a3b-instruct-2507-q4_K_M" ]
+
+  # ========== 30B-Thinking (3个Worker, 各有 owner) ==========
+  - id: "Qwen3:30b-a3b-thinking-2507-q4_K_M-01"
+    url: "http://127.0.0.1:11410"
+    owner: "userA"
+    models: [ "Qwen3:30b-a3b-thinking-2507-q4_K_M" ]
+
+  - id: "Qwen3:30b-a3b-thinking-2507-q4_K_M-02"
+    url: "http://127.0.0.1:11434"
+    owner: "userB"
+    models: [ "Qwen3:30b-a3b-thinking-2507-q4_K_M" ]
+
+  - id: "Qwen3:30b-a3b-thinking-2507-q4_K_M-03"
+    url: "http://127.0.0.1:11435"
+    owner: "userC"
+    models: [ "Qwen3:30b-a3b-thinking-2507-q4_K_M" ]
